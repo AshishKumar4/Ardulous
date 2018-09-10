@@ -1,0 +1,12 @@
+Database style =>
+
+Using CouchDB,
+
+Users, Organization
+
+Users -> pvt info -> password hash, address, phone, dob, hobbies, interests etc.
+Users -> Original Content -> Posts, Images, Data
+Users -> activity -> likes, shares, comments 
+Users -> connections -> followers, friends, following
+Users -> Groups -> member
+Users -> Timeline

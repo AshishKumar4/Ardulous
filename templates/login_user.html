@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Ardulous</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/particles.min.js') }}"></script>
+</head>
+
+<body>
+	<div id="particles-js"></div>
+	<div id="holder">
+		<p id="logo"><b>Ardulous</b></p>
+		<br>
+		<br>
+		<br>
+		<form method="POST" id="login">
+			<br>
+			<br>
+			<h2><b>Login as User</b></h2>
+			<br>
+			<br>
+			<span class="left">Login id: </span>
+			<br>
+			<input type="text" name="id">
+			<br>
+			<br>
+			<span class="left">Password: </span>
+			<br>
+			<input type="password" name="pw">
+			<br>
+			<br>
+			<button type="submit" name="login">Login</button>			<br>
+			<br>
+		</form>
+		<br>
+		<a href="{{ url_for('register_user') }}">Not Registered yet? Register here</a>
+	</div>
+</body>
+<script type="text/javascript">
+	particlesJS.load("particles-js", "{{ url_for('static', filename='js/particlesjs-config.json') }}");
+</script>
+
+</html>
