@@ -1,0 +1,138 @@
+.posts {
+    width:50vw;
+    min-height:20vh;
+    max-height:40vh;
+    margin:20px auto 20px auto;
+    background-color: white;
+    border-radius: 17px;
+    border-color: #0006;
+    border-style:solid;
+    border-width:1.5px;
+    padding: 1%;
+}
+
+.post-header {
+    display: flex;
+    width:100%;
+}
+
+.post-author-card {
+    width:100%;
+    display:inline-block;
+    float:left;
+}
+
+.post-author-pic {
+    width:40px;
+    height:40px;
+    display:inline-block;
+}
+
+.post-author-pic-img {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    margin:auto;
+}
+
+.post-author-name {
+    display:inline-block;
+    vertical-align:top;
+    line-height:3;
+}
+
+.post-datetime {
+    display:inline-block;
+    float:right;
+}
+
+.post-body {
+    margin:auto;
+    background-color: white;
+    width:100%;
+    min-height:10vh;
+    border-radius:7px;
+    border-color:#0006;
+    border-style:solid;
+    border-width:0.1px;
+    padding: 1%;
+}
+
+.post-text {
+    width:100%;
+}
+
+.post-interactions {
+    width:100%;
+    min-height:2vh;
+    margin: 10px;
+}
+
+.post-like-button {
+    display:inline-block;
+    content: "like";
+    width: 10%;
+    height:100%;
+    border-width:0 1px 0 0;
+}
+
+.post-comment-button {
+    display:inline-block;
+    content: "share";
+    width: 10%;
+    height:100%;
+    border-width:0 1px 0 1px;
+}
+
+.post-share-button {
+    display:inline-block;
+    content: "Share";
+    width: 10%;
+    height:100%;
+    border-width:0 0 0 1px;
+}
+
+.post-comments {
+    display:block;
+    width:100%;
+}
+
+/* ---------------- Post Create Form CSS ---------------- */
+
+#post-create {
+    width:50vw;
+    height:16vh;
+    margin:20px auto 20px auto;
+    background-color: #fffc;
+    border-radius: 17px;
+    border-color: #0006;
+    border-style:solid;
+    border-width:1.5px;
+    padding: 1%;
+}
+
+#post-create-text {
+    margin:auto;
+    background-color: #fafcff;
+    width:100%;
+    height:65%;
+    border-radius:15px;
+    border-color:#0006;
+    border-style:solid;
+    border-width:2px;
+    padding: 1%;
+}
+
+#post-create-button {
+    height: 30%;
+    width: 12%;
+    margin:10px 0px;
+    float:right;
+    border-style:solid;
+    border-radius:6px;
+    border-color:#2e7a00;
+    border-width:0.01px;
+    background-color:lightgreen;
+}

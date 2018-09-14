@@ -1,0 +1,61 @@
+
+{% extends "internal/layout.html" %} {% block body %}
+<div id="main">
+    <link href="{{ url_for('static', filename='css/profilecard.css') }}" rel="stylesheet">
+    <div id="profile-sidebar">
+        
+
+        <div class="profile">
+            <div class="profile__header">
+                <img class="profile__background" src="{{ profile_cover_location | safe }}"
+                />
+                <img class="profile__picture" src="{{ profile_pic_location | safe }}" />
+            </div>
+            <div class="profile__content">
+                <div class="profile__bio">
+                    <h3 class="profile__name">{{ profile_name | safe }}</h3>
+                    <p class="profile__info">{{ profile_info | safe }}</p>
+                </div>
+                <div class="profile__links">
+                    <a class="profile__link" href="#">
+                        <i class="profile__link__icon fa fa-map-marker"></i>
+                        <span class="profile__link__text">{{ profile_residence_link | safe }}</span>
+                    </a>
+                    <a class="profile__link" href="#">
+                        <i class="profile__link__icon fa fa-envelope"></i>
+                        <span class="profile__link__text">{{ profile_email | safe }} </span>
+                    </a>
+                </div>
+                <div class="profile_stats">
+                    <div class="profile_stats__stats profile_stats__stats--followers">
+                        <span class="profile__stats__count">{{ profile_stats_follower_count | safe }}</span>
+                        <span class="profile__stats__label">Followers</span>
+                    </div>
+                    <div class="profile_stats__stats profile_stats__stats--followers">
+                        <span class="profile_stats__stats__count">{{ profile_stats_following_count | safe }}</span>
+                        <span class="profile_stats__stats__label">Following</span>
+                    </div>
+                    <div class="profile_stats__follow">
+                        <button class="profile_stats__follow__button">Follow</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!--<div id="right-sidebar">
+
+    </div>-->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/posts.js') }}"></script>
+
+    <div id="profile-wall" onload="loadPostsAll('{{ profile_id | safe }}')">
+
+        <div id="post-area">
+            
+        </div>
+
+    </div>
+</div>
+{% endblock %}

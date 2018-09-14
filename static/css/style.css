@@ -26,12 +26,16 @@ li{list-style:none}
 
 html,body{ 
 	width:100%;
-	height:100%;
+	min-height:100%;
 	background:#111;
 }
 
 html{
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background-image: url('../img/wall1.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 canvas{
@@ -40,10 +44,10 @@ canvas{
 }
 
 body {
-  background-image: url('../img/wall1.jpg');
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: inherit;
+  background-attachment: inherit;
+  background-size: inherit;
+  background-repeat: inherit;
   font-family: ubuntu mono,monospace,maiandra gd;
 }
 
@@ -96,7 +100,7 @@ input {
 #particles-js{
   position: fixed;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -106,11 +110,12 @@ input {
 /* ---- navbar container ---- */
 
 #navbar {
+  width:100%;
   top: 0;
   height:50px;
   background-color: black;
   text-align:right;
-  position:sticky;
+  position:fixed;
   border-style:outset;
   border-color:grey;
   border-width:2.5px 0 2.5px 0;
@@ -163,23 +168,26 @@ input {
 /* ---- main container ---- */
 
 #main {
+  margin:50px 0 0 0;
   position:absolute;
 }
 
 #main #left-sidebar {
   border-color:black;
   display:inline-block;
-  width:15vw;
-  height:100vh;
+  width:22vw;
+  min-height:100vh;
   float:left;
   background-color:#31a8ff33;
+  position:sticky;
+  top:0;
 }
 
 #main #right-sidebar {
   border-color:black;
   display:inline-block;
-  width:15vw;
-  height:100vh;
+  width:20vw;
+  min-height:100vh;
   float:right;
   color:#007a00;
 }
@@ -187,15 +195,14 @@ input {
 #main #wall {
   border-color:black;
   display:inline-block;
-  width:69vw;
-  height:100vh;
+  width:57vw;
+  min-height:100vh;
   background-color:#e9e9e999;
 }
 
 /* ---- Footer container ---- */
 
 #footer {
-  position:sticky;
-  top:94vh;
+  position:fixed;
   bottom:0;
 }

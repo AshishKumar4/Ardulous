@@ -1,14 +1,70 @@
-{% extends "internal/layout.html" %}
-{% block body %}
+{% extends "internal/layout.html" %} {% block body %}
 <div id="main">
     <div id="left-sidebar">
+        <link href="{{ url_for('static', filename='css/profilecard.css') }}" rel="stylesheet">
+        <div id="profile-card">
 
+
+            <div class="profile">
+                <div class="profile__header">
+                    <img class="profile__background" src="{{ profile_cover_location | safe }}" />
+                    <img class="profile__picture" src="{{ profile_pic_location | safe }}" />
+                </div>
+                <div class="profile__content">
+                    <div class="profile__bio">
+                        <h3 class="profile__name">{{ profile_name | safe }}</h3>
+                        <p class="profile__info">{{ profile_info | safe }}</p>
+                    </div>
+                    <div class="profile__links">
+                        <a class="profile__link" href="#">
+                            <i class="profile__link__icon fa fa-map-marker"></i>
+                            <span class="profile__link__text">{{ profile_residence_link | safe }}</span>
+                        </a>
+                        <a class="profile__link" href="#">
+                            <i class="profile__link__icon fa fa-envelope"></i>
+                            <span class="profile__link__text">{{ profile_email | safe }} </span>
+                        </a>
+                    </div>
+                    <div class="profile_stats">
+                        <div class="profile_stats__stats profile_stats__stats--followers">
+                            <span class="profile__stats__count">{{ profile_stats_follower_count | safe }}</span>
+                            <span class="profile__stats__label">Followers</span>
+                        </div>
+                        <div class="profile_stats__stats profile_stats__stats--followers">
+                            <span class="profile_stats__stats__count">{{ profile_stats_following_count | safe }}</span>
+                            <span class="profile_stats__stats__label">Following</span>
+                        </div>
+                        <div class="profile_stats__follow">
+                            <button class="profile_stats__follow__button">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
     </div>
     <div id="right-sidebar">
 
     </div>
-    <div id="wall">
+    <link href="{{ url_for('static', filename='css/posts.css') }}" rel="stylesheet">
+    <div id="wall" onloadstart="loadPostFeed();">
+        <div id="post-create">
+            <div aria-labelledby="post-create-text-label" name="post" id="post-create-text" class="post-box" spellcheck="true" aria-multiline="true"
+                data-placeholder-default="What’s happening?" data-placeholder-poll-composer-on="Ask a question..." dir="ltr"
+                aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-dropdown-4" role="" contenteditable="true">
+                <br>
+            </div>
+            <button id="post-create-button" onclick="newPost()">Post!</button>
+        </div>
+        <div id="status">
 
+        </div>
+        <div id="post-area">
+
+        </div>
     </div>
 </div>
-{% endblock %}
+<script>
+    loadPostFeed();
+</script> {% endblock %}
