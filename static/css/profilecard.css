@@ -95,7 +95,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  flex-basis: 50%;
+  flex-basis: 33.334%;
   padding: 15px 20px;
   background: #ECEFF1;
   border-top: 1px solid #ddd;
@@ -136,6 +136,7 @@
 /* ------------------------ */
 
 #profile-card {
-  margin: 5vh auto auto 1vh;
+  margin: 5vh auto auto 3vh;
   position: fixed;
+  top: 10vh;
 }

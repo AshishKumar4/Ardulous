@@ -7,8 +7,16 @@
     <div id="right-sidebar">
 
     </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/posts.js') }}"></script>
+    <link href="{{ url_for('static', filename='css/posts.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/cards.css') }}" rel="stylesheet">
     <div id="wall">
-
+        {{ byid | safe }}
     </div>
 </div>
+<script>
+    loadMiniProfileCards({{ byid | safe }});
+    loadMiniProfileCards({{ byname | safe }});
+    loadMiniProfileCards({{ byemail | safe }});
+</script> 
 {% endblock %}

@@ -1,10 +1,8 @@
 import string 
-import couchdb 
 from flask import * 
 from Database import *
 from User import *
 from flask_sessionstore import Session
-
 
 app = Flask(__name__)
 app.config.update(
@@ -15,7 +13,7 @@ app.config.from_object(__name__)
 #Session(app)
 
 global db  
-db = Database("http://admin:ashish@localhost:5984")
+db = Database("mongodb://localhost:27017/")
 
 # Set the secret key to some random bytes. Keep this really secret!
 import os 
@@ -89,8 +87,12 @@ def search():
             try: 
                 squery = request.form['search']
                 global db
-                ss = db.searchUser(squery)
-                return render_template("/internal/search.html")
+                ss, st, su, sv = db.searchUser(squery)
+                byid = [db.getUserMinInfo(i['_id']) for i in ss]
+                byname = [db.getUserMinInfo(i['_id']) for i in st]
+                byemail = [db.getUserMinInfo(i['_id']) for i in su]
+                bypost = [db.getUserMinInfo(i['_id']) for i in sv]
+                return render_template("/internal/search.html", byid = byid, byname = byname, byemail = byemail, bypost = bypost)
             except:
                 return render_template("/500.html")
             return render_template("/internal/search.html")
@@ -102,7 +104,7 @@ def search():
 def logout():
     global db
     del db 
-    db = Database("http://admin:ashish@localhost:5984")
+    db = Database("mongodb://localhost:27017/")
     session.pop('login', None)
     session.pop('feedpos', None)
     return redirect("/login_user")#render_template("/login_user.html")
@@ -111,16 +113,17 @@ def logout():
 def profile():
     global db  
     if "login" in session:
-        if request.method == "POST":
+        if request.method == "GET" and request.args.get('user'): # Comment out one of these later request.method == "POST" or 
             try: 
-                ss = request.form['id']
+                res = request.args.get('user')
+                ss = res#res['user']
                 info = db.getUserInfo(ss)
-                return render_template("/internal/profile.html", profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'])    # Pass information of the current user   
-            except: 
-                return render_template("/500.html")
+                return render_template("/internal/profile.html", profile_id = ss, profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'])    # Pass information of the current user   
+            except Exception as e: 
+                return render_template("/500.html", error = e)
         ss = session['login'] 
         info = db.getUserInfo(ss)
-        return render_template("/internal/profile.html", profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'])    # Pass information of the current user
+        return render_template("/internal/profile.html",  profile_id = ss, profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'])    # Pass information of the current user
     return redirect("/login_user")
 
 
@@ -131,10 +134,10 @@ def profile():
 def feedFetch():
     global db  
     if "login" in session:
-        count = 5#request.form['count']
+        res = request.get_json(force=True)
+        count = int(res['count'])
         ss = session['login'] 
-        pos = session['feedpos']
-        session['feedpos'] = pos
+        pos = int(res['feedpos'])
         feed = db.popFeeds(ss, pos, count)
         feed.reverse()
         for i in feed:
@@ -142,7 +145,26 @@ def feedFetch():
             pp = db.getUserInfo(uid)
             i['author-pic'] = pp["profile_pic"]
             i['author-name'] = pp["name"]
-        pos += count
+        return jsonify(feed)
+    return None
+
+@app.route("/handlers/originalsfetch", methods=["GET", "POST"])
+def originalFetch():
+    global db  
+    if "login" in session:
+        res = request.get_json(force=True)
+        count = int(res['count'])
+        if res['user'] == '':
+            ss = session['login'] 
+        else:
+            ss = res['user']
+        pos = int(res['feedpos'])
+        feed = db.popOriginals(ss, pos, count)
+        pp = db.getUserInfo(ss)
+        feed.reverse()
+        for i in feed:
+            i['author-pic'] = pp["profile_pic"]
+            i['author-name'] = pp["name"]
         return jsonify(feed)
     return None
 
@@ -152,8 +174,32 @@ def newPost():
     if "login" in session: 
         ss = session['login']
         post = request.get_json(force=True)
-        if db.createPost(ss, post):
+        p = db.createPost(ss, post)
+        if p:
+            db.pushFeedsToFollowers(ss, p)
             return jsonify("Post created Successfully!")
         else:
             return jsonify("Couldn't make post, internal error")
     return None
+
+
+@app.route("/handlers/postlike", methods=['GET', 'POST'])
+def postlike():
+    global db 
+    if "login" in session:
+        ss = session['login']
+        pid = request.get_json(force=True)['postid']
+        p = db.makeLikePost(ss, pid)
+        return jsonify(p)
+    return None
+
+@app.route("/handlers/makefollow", methods=['GET', 'POST'])
+def makeFollow():
+    global db  
+    if "login" in session:
+        ss = session['login']
+        uid = request.get_json(force=True)['uid']
+        if db.makeFollow(ss, uid):
+            return jsonify("You are now following the user "+uid+"!")
+        return None 
+    return None 

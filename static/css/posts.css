@@ -106,7 +106,7 @@
     height:16vh;
     margin:20px auto 20px auto;
     background-color: #fffc;
-    border-radius: 17px;
+    border-radius: 15px;
     border-color: #0006;
     border-style:solid;
     border-width:1.5px;
@@ -128,11 +128,30 @@
 #post-create-button {
     height: 30%;
     width: 12%;
-    margin:10px 0px;
+    margin:8px 0px;
     float:right;
     border-style:solid;
     border-radius:6px;
     border-color:#2e7a00;
     border-width:0.01px;
     background-color:lightgreen;
+}
+
+#post-upload-button {
+    height: 30%;
+    width: 18%;
+    margin:8px 0px;
+    float:left;
+    border-style:solid;
+    border-radius:6px;
+    border-color:#2e7a00;
+    border-width:0.01px;
+    background-color:lightskyblue;
+}
+
+#uploadcontent {
+    opacity : 0;
+    left: 0;
+    top : 0;
+    position: absolute;
 }

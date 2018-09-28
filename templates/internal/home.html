@@ -1,5 +1,5 @@
 {% extends "internal/layout.html" %} {% block body %}
-<div id="main">
+<div id="main" onscroll="postScrollRefresh(this)">
     <div id="left-sidebar">
         <link href="{{ url_for('static', filename='css/profilecard.css') }}" rel="stylesheet">
         <div id="profile-card">
@@ -27,15 +27,20 @@
                     </div>
                     <div class="profile_stats">
                         <div class="profile_stats__stats profile_stats__stats--followers">
-                            <span class="profile__stats__count">{{ profile_stats_follower_count | safe }}</span>
-                            <span class="profile__stats__label">Followers</span>
+                            <span class="profile_stats__stats__count">{{ profile_stats_post_count | safe }}</span>
+                            <span class="profile_stats__stats__label">Posts</span>
+                        </div>
+                        <div class="profile_stats__stats profile_stats__stats--followers">
+                            <span class="profile_stats__stats__count">{{ profile_stats_follower_count | safe }}</span>
+                            <span class="profile_stats__stats__label">Followers</span>
                         </div>
                         <div class="profile_stats__stats profile_stats__stats--followers">
                             <span class="profile_stats__stats__count">{{ profile_stats_following_count | safe }}</span>
                             <span class="profile_stats__stats__label">Following</span>
                         </div>
+
                         <div class="profile_stats__follow">
-                            <button class="profile_stats__follow__button">Follow</button>
+                            <button class="profile_stats__follow__button" onclick="window.location = '/profile'">My Profile</button>
                         </div>
                     </div>
                 </div>
@@ -55,6 +60,10 @@
                 aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-dropdown-4" role="" contenteditable="true">
                 <br>
             </div>
+            <button id="post-upload-button" onclick="uploadContent()">
+                <div class="glyphicon glyphicon-picture"></div>Photo/Video
+                <input type="file" id="uploadcontent" hidden/>
+            </button>
             <button id="post-create-button" onclick="newPost()">Post!</button>
         </div>
         <div id="status">
@@ -66,5 +75,10 @@
     </div>
 </div>
 <script>
-    loadPostFeed();
+    loadPostFeed(5, 0);
+    $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+            loadPostFeed(5, 0);
+        }
+    });
 </script> {% endblock %}

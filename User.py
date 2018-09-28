@@ -1,6 +1,6 @@
 from Database import *
 
-db = Database("http://admin:ashish@localhost:5984/")
+db = Database("mongodb://localhost:27017/")
 
 class User:
     def __init__(self):

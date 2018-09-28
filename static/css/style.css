@@ -175,7 +175,7 @@ input {
 #main #left-sidebar {
   border-color:black;
   display:inline-block;
-  width:22vw;
+  width:24vw;
   min-height:100vh;
   float:left;
   background-color:#31a8ff33;
@@ -186,7 +186,7 @@ input {
 #main #right-sidebar {
   border-color:black;
   display:inline-block;
-  width:20vw;
+  width:18vw;
   min-height:100vh;
   float:right;
   color:#007a00;
