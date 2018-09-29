@@ -19,10 +19,14 @@
 		<br>
 		<br>
 		<br>
-		<form method="POST" id="login">
+		<form method="POST" id="register">
 			<br>
 			<br>
 			<h2>Register as user</h2>
+			<br>
+			<br>
+			<span class="left">Choose a unique username: </span>
+			<input type="text" name="id">
 			<br>
 			<br>
 			<span class="left">Name: </span>
@@ -45,15 +49,25 @@
 			<input type="text" name="address">
 			<br>
 			<br>
+			<span class="left">City: </span>
+			<input type="text" name="city">
+			<br>
+			<br>
 			<span class="left">Occupation: </span>
 			<input type="text" name="occupation">
 			<br>
 			<br>
-			<span class="left">Interest: </span>
+			<span class="left">Tell us about yourself: </span>
+			<input type="text" name="info">
+			<br>
+			<br>
+			<span class="left">Interests: </span>
 			<input type="text" name="interest">
 			<br>
 			<br>
-			<button type="button" name="register">Register</button>
+			<input type="text" name="profile_cover" value=" " hidden>
+			<input type="text" name="profile_pic" value=" " hidden>
+			<button type="submit" name="register">Register</button>
 			<br>
 			<br>
 		</form>

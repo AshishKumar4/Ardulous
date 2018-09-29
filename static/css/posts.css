@@ -44,6 +44,13 @@
     line-height:3;
 }
 
+.post-author-card a {
+    color:rgb(3, 113, 0);
+}
+.post-author-card a:hover {
+    color:rgb(1, 32, 0);
+}
+
 .post-datetime {
     display:inline-block;
     float:right;

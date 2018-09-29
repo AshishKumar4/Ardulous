@@ -19,7 +19,9 @@ class Database:
         d = self.db 
         try:
            # b = d['users'][data['id']]
-            dd = {"_id":data['id'], "password" : generate_password_hash(data['password']), "type":type, "email":data['email'], "feed": [], "originals":[], "connections":{'friends':[], 'followers':[], 'following':[]}, "personal":{"profile_pic":data['profile_pic'], "profile_cover":data['profile_cover'], "name": data['name'], "info": data['info'], "dob":data['dob'], "city": data['address']['city'], "address":data['address'], "occupation":data['occupation'], "interest":data['interest']} }
+            if(d['users'].find_one({'_id':data['id']})):
+               return 2
+            dd = {"_id":data['id'], "password" : generate_password_hash(data['password']), "type":type, "email":data['email'], "feed": [], "originals":[], "connections":{'friends':[], 'followers':[], 'following':[]}, "personal":{"profile_pic":data['profile_pic'], "profile_cover":data['profile_cover'], "name": data['name'], "info": data['info'], "dob":data['dob'], "city": data['city'], "address":data['address'], "occupation":data['occupation'], "interest":data['interest']} }
             d['user'].insert_one(dd)
         except:
             return False 
@@ -80,6 +82,7 @@ class Database:
             info['stats'] = {}
             info['stats']['followers'] = len(b['connections']['followers'])
             info['stats']['following'] = len(b['connections']['following'])
+            info['stats']['posts'] = len(b['originals'])
             return info
         except:
             return None 

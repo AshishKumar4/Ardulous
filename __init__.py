@@ -64,7 +64,20 @@ def register_org():
 
 @app.route("/register_user", methods=["GET", "POST"])
 def register_user():
-    return render_template('/register_user.html')
+    if "login" in session:
+        return dashboard()
+    elif request.method == "POST":
+        global db
+        try:
+            data = request.get_json(force=True) 
+            if db.createUser(data) == 1:
+               return jsonify("Success")
+            else: return jsonify("Username Already Taken")
+        except Exception as ex:
+            print(ex)
+            return render_template("/500.html")
+    else:
+        return render_template('/register_user.html')
 
 ############################################ Dashboard and internal stuffs ############################################
 
@@ -76,7 +89,7 @@ def dashboard():
             return render_template('/internal/home.html')
         ss = session['login'] 
         info = db.getUserInfo(ss)
-        return render_template('/internal/home.html', profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'])    # Pass information of the current user
+        return render_template('/internal/home.html', profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'], profile_stats_post_count = info['stats']['posts'])    # Pass information of the current user
     else:
         return redirect("/login_user")
     return render_template('/500.html')
@@ -119,12 +132,12 @@ def profile():
                 res = request.args.get('user')
                 ss = res#res['user']
                 info = db.getUserInfo(ss)
-                return render_template("/internal/profile.html", profile_id = ss, profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'])    # Pass information of the current user   
+                return render_template("/internal/profile.html", profile_id = ss, profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'], profile_stats_post_count = info['stats']['posts'])    # Pass information of the current user   
             except Exception as e: 
                 return render_template("/500.html", error = e)
         ss = session['login'] 
         info = db.getUserInfo(ss)
-        return render_template("/internal/profile.html",  profile_id = ss, profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'])    # Pass information of the current user
+        return render_template("/internal/profile.html",  profile_id = ss, profile_cover_location = info['profile_cover'], profile_pic_location = info['profile_pic'], profile_name = info['name'], profile_info = info['info'], profile_residence_link = info['city'], profile_email = info['email'], profile_stats_follower_count = info['stats']['followers'], profile_stats_following_count = info['stats']['following'], profile_stats_post_count = info['stats']['posts'])    # Pass information of the current user
     return redirect("/login_user")
 
 

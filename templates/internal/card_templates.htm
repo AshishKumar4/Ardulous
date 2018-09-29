@@ -1,14 +1,16 @@
 <div class="container posts" id="'+data['post-id']+'">
     <div class="post-header container">
         <div class="post-author-card">
-            <div class="post-author">
-                <div class="post-author-pic">
-                    <img class="post-author-pic-img" src="'+data['author-pic']+'" />
+            <a href="/profile?user='+data['author-id']+'">
+                <div class="post-author">
+                    <div class="post-author-pic">
+                        <img class="post-author-pic-img" src="'+data['author-pic']+'" />
+                    </div>
+                    <div class="post-author-name">
+                        '+data['author-name']+'
+                    </div>
                 </div>
-                <div class="post-author-name">
-                    '+data['author-name']+'
-                </div>
-            </div>
+            </a>
         </div>
         <div class="post-datetime">
             '+data['time']+'

@@ -110,7 +110,7 @@ input {
 /* ---- navbar container ---- */
 
 #navbar {
-  width:100%;
+  width:100vw;
   top: 0;
   height:50px;
   background-color: black;
@@ -126,7 +126,7 @@ input {
 #navbar #logo{
   font-size: 200%;
   float: left;
-  margin: 0.4% 1% 1% 3%;
+  margin: 0.4vw 1vh 1vw 17.4vh;
   /*color: #007a00;*/
 }
 
@@ -140,6 +140,7 @@ input {
   text-align:center;
   cursor:default;
   color:white;
+  float:left;
 }
 
 #navbar .navitems:hover {
@@ -151,12 +152,16 @@ input {
 }
 
 #navbar #searchbar {
+  width: 100%;
+  height:100%;
+}
+
+#navbar #searchbarwrapper {
   display:inline-block;
-  width:30vw;
-  height: 32px;
+  width:27vw;;
   vertical-align:middle;
-  line-height:2;
-  margin: 0.19vw 6vw;
+  line-height:1.35;
+  margin: 0.28vh 1.5vw 0 7vw;
   float:left;
 }
 
@@ -168,6 +173,8 @@ input {
 /* ---- main container ---- */
 
 #main {
+  width:100vw;
+  min-height:100%;
   margin:50px 0 0 0;
   position:absolute;
 }
