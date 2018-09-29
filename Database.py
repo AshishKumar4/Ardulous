@@ -4,6 +4,8 @@ import hashlib
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 
+import re
+
 def getAge(date):
     return 19
 
@@ -48,14 +50,16 @@ class Database:
         d = self.db 
         try:
             b = d['users']
+            reg = re.compile("\\b"+search+"\\b", re.IGNORECASE)
             #Search through direct id ->
-            gg = b.find({"_id":search}, {"_id":1})
+            gg = b.find({"_id":reg}, {"_id":1})
             #Search through direct name ->
-            gh = b.find({"personal":{"name":search}}, {"_id":1})
-            #Search through direct email ->
-            gi = b.find({"email":search}, {"_id":1})
+            gh = b.find({"personal.name":reg}, {"_id":1})
             #Search through direct Posts ->
-            gj = b.find({"_id":search}, {"_id":1})
+            gj = b.find({"_id":reg}, {"_id":1})
+            #Search through direct email ->
+            reg = re.compile("[a-z]*"+search+"[a-z]*", re.IGNORECASE)
+            gi = b.find({"email":reg}, {"_id":1})
             return gg, gh, gi, gj
         except:
             return None 
@@ -87,6 +91,7 @@ class Database:
         try:
             b = d['users'].find_one({"_id":uid})
             #info['email'] = b['email']
+            info['id'] = b['_id']
             info['city'] = b['personal']['city']
             info['age'] = getAge(b['personal'])
             info['info'] = b['personal']['info']
@@ -96,6 +101,7 @@ class Database:
             info['stats'] = {}
             info['stats']['followers'] = len(b['connections']['followers'])
             info['stats']['following'] = len(b['connections']['following'])
+            info['stats']['posts'] = len(b['originals'])
             return info
         except:
             return None 

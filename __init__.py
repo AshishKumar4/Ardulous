@@ -3,6 +3,7 @@ from flask import *
 from Database import *
 from User import *
 from flask_sessionstore import Session
+import json
 
 app = Flask(__name__)
 app.config.update(
@@ -92,7 +93,7 @@ def search():
                 byname = [db.getUserMinInfo(i['_id']) for i in st]
                 byemail = [db.getUserMinInfo(i['_id']) for i in su]
                 bypost = [db.getUserMinInfo(i['_id']) for i in sv]
-                return render_template("/internal/search.html", byid = byid, byname = byname, byemail = byemail, bypost = bypost)
+                return render_template("/internal/search.html", byid = json.dumps({"data":byid, "type":"user"}), byname = json.dumps({"data":byname, "type":"user"}), byemail = json.dumps({"data":byemail, "type":"user"}), bypost = json.dumps({"data":bypost, "type":"post"}))
             except:
                 return render_template("/500.html")
             return render_template("/internal/search.html")
