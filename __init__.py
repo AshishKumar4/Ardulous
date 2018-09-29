@@ -183,6 +183,16 @@ def newPost():
             return jsonify("Couldn't make post, internal error")
     return None
 
+@app.route("/handlers/postcomment", methods=['GET', 'POST'])
+def postcomment():
+    global db 
+    if "login" in session:
+        ss = session['login']
+        pid = request.get_json(force=True)['postid']
+        data = request.get_json(force=True)['data']
+        p = db.makeCommentPost(ss, pid, data)
+        return jsonify(p)
+    return None
 
 @app.route("/handlers/postlike", methods=['GET', 'POST'])
 def postlike():
@@ -191,6 +201,16 @@ def postlike():
         ss = session['login']
         pid = request.get_json(force=True)['postid']
         p = db.makeLikePost(ss, pid)
+        return jsonify(p)
+    return None
+
+@app.route("/handlers/postshare", methods=['GET', 'POST'])
+def postshare():
+    global db 
+    if "login" in session:
+        ss = session['login']
+        pid = request.get_json(force=True)['postid']
+        p = db.makeSharePost(ss, pid)
         return jsonify(p)
     return None
 

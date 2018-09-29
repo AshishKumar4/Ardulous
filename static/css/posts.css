@@ -71,6 +71,13 @@
     margin: 10px;
 }
 
+.post-interactions:hover{
+    width:100%;
+    min-height:2vh;
+    margin: 10px;
+    cursor: pointer;
+}
+
 .post-like-button {
     display:inline-block;
     content: "like";

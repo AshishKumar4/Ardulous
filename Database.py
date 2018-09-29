@@ -123,9 +123,10 @@ class Database:
             feed = fl[(o-pos)-min([o,count]):o - pos]
             g = list()
             for i in feed:
-                j = d['posts'].find_one({'_id':ObjectId(i)})
+                j = dict(d['posts'].find_one({'_id':ObjectId(i)}))
                 j['post-id'] = i 
                 j['_id'] = i
+                j['likes'] = len(j['stats']['likes'])
                 g.append(j)
             return g
         except: 
@@ -145,9 +146,10 @@ class Database:
             feed = fl[(o-pos)-min([o,count]):o - pos]
             g = list()
             for i in feed:
-                j = d['posts'].find_one({'_id':ObjectId(i)})
+                j = dict(d['posts'].find_one({'_id':ObjectId(i)}))
                 j['post-id'] = i 
                 j['_id'] = i
+                j['likes'] = len(j['stats']['likes'])
                 g.append(j)
             return g
         except: 
@@ -206,13 +208,47 @@ class Database:
         return None
 
 
+    def makeCommentPost(self, uid, pid, data):
+        d = self.db 
+        try:
+            b = d['users'].find_one({"_id":uid})
+            # Add this post as 'Liked' post for the user
+            # and add a like on the post itself
+            p = d['posts'].find_one({"_id":ObjectId(pid)})
+            k = p['stats']['comments']
+            k.append(dict({"id":uid, "data":data}))
+            p['stats']['comments'] = k 
+            d['posts'].save(p)
+            return len(k)
+        except:
+            return None
+
     def makeLikePost(self, uid, pid):
         d = self.db 
         try:
             b = d['users'].find_one({"_id":uid})
             # Add this post as 'Liked' post for the user
             # and add a like on the post itself
-            p = d['posts'].find_one({"_id":pid})
+            p = d['posts'].find_one({"_id":ObjectId(pid)})
+            k = p['stats']['likes']
+            if uid not in k:
+                k.append(uid)
+                p['stats']['likes'] = k 
+                d['posts'].save(p)
+                #d['posts'].commit()
+            else: 
+                pass
+            return len(k)
+        except:
+            return None
+
+    def makeSharePost(self, uid, pid):
+        d = self.db 
+        try:
+            b = d['users'].find_one({"_id":uid})
+            # Add this post as 'Liked' post for the user
+            # and add a like on the post itself
+            p = d['posts'].find_one({"_id":ObjectId(pid)})
             k = p['stats']['likes']
             if uid not in k:
                 k.append(uid)
