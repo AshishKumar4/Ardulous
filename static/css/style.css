@@ -49,6 +49,7 @@ body {
   background-size: inherit;
   background-repeat: inherit;
   font-family: ubuntu mono,monospace,maiandra gd;
+  font-size:1.75vmin;
 }
 
 #logo {
@@ -66,7 +67,7 @@ form {
 }
 
 input {
-  color:#949ba2;
+  color:#eaeaea;
   background-color:#39414780;
   border-radius: 7px;
   border-style:0;

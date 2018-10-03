@@ -1,0 +1,83 @@
+#messaging-wrapper {
+    height:84vh;
+    width:16vw;
+    position:fixed;
+    background-color:#fffc;
+    margin:5vh 0 0 0;
+    border-radius:20px;
+    box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#messaging-header {
+    text-align:center;
+    width:100%;
+    margin:10% 0 5% 0;
+}
+
+#messaging-recent {
+    height:40%;
+}
+
+#messaging-general {
+    height:40%;
+
+}
+
+.msgContact-recent-header, .msgContact-general-header{
+    padding:5%;
+    width:100%;
+    background-color:#d5ecd5;
+    line-height:0.5;
+}
+
+.msgContact-recent-board {
+    min-height:100%;
+}
+
+.msgContact-user-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    margin:auto;
+    object-fit:cover;
+    border-style:solid;
+    border-color:lightgreen;
+    border-width:3px;
+}
+
+.msgContact-recent-box {
+    padding: 5px;
+    width:100%;
+    background-color:#eaf8ea99;
+    border-style:solid;
+    border-color:#8080804d;
+    border-width:0.1px 0;
+}
+
+.msgContact-recent-pic {
+    display:inline-block;
+
+}
+.msgContact-recent-name {
+    display:inline-block;
+    margin:11px 0 0 3px;
+    vertical-align:top;
+    
+}
+.msgContact-recent-lastMsg {
+    display:inline-block;
+}
+.msgContact-recent-count {
+    display:inline-block;
+    vertical-align:top;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background-color:#48dd48;
+    margin: 4px 10px 0 0;
+    color:#efffef;
+    text-align:center;
+    line-height:30px;
+    float:right;
+}

@@ -144,7 +144,7 @@ def profile():
 
 ############################################ JavaScript POST Handlers ############################################
 
-@app.route("/handlers/feedfetch", methods=["GET", "POST"])
+@app.route("/handlers/feedfetch", methods=["POST"])
 def feedFetch():
     global db  
     if "login" in session:
@@ -162,7 +162,7 @@ def feedFetch():
         return jsonify(feed)
     return None
 
-@app.route("/handlers/originalsfetch", methods=["GET", "POST"])
+@app.route("/handlers/originalsfetch", methods=["POST"])
 def originalFetch():
     global db  
     if "login" in session:
@@ -182,7 +182,7 @@ def originalFetch():
         return jsonify(feed)
     return None
 
-@app.route("/handlers/newpost", methods=['GET', 'POST'])
+@app.route("/handlers/newpost", methods=['POST'])
 def newPost():
     global db 
     if "login" in session: 
@@ -196,7 +196,7 @@ def newPost():
             return jsonify("Couldn't make post, internal error")
     return None
 
-@app.route("/handlers/postcomment", methods=['GET', 'POST'])
+@app.route("/handlers/postcomment", methods=['POST'])
 def postcomment():
     global db 
     if "login" in session:
@@ -207,17 +207,17 @@ def postcomment():
         return jsonify(p)
     return None
 
-@app.route("/handlers/postlike", methods=['GET', 'POST'])
+@app.route("/handlers/postlike", methods=['POST'])
 def postlike():
     global db 
     if "login" in session:
         ss = session['login']
         pid = request.get_json(force=True)['postid']
-        p = db.makeLikePost(ss, pid)
+        p = db.LikeUnlikePost(ss, pid)
         return jsonify(p)
     return None
 
-@app.route("/handlers/postshare", methods=['GET', 'POST'])
+@app.route("/handlers/postshare", methods=['POST'])
 def postshare():
     global db 
     if "login" in session:
@@ -227,7 +227,7 @@ def postshare():
         return jsonify(p)
     return None
 
-@app.route("/handlers/makefollow", methods=['GET', 'POST'])
+@app.route("/handlers/makefollow", methods=['POST'])
 def makeFollow():
     global db  
     if "login" in session:
@@ -236,4 +236,28 @@ def makeFollow():
         if db.makeFollow(ss, uid):
             return jsonify("You are now following the user "+uid+"!")
         return None 
+    return None 
+
+# /----------------------------------/ Messaging Handlers /----------------------------------/
+
+@app.route("/handlers/msgGeneralListFetch", methods=['POST'])
+def msgGeneralListFetch():
+    global db  
+    if "login" in session:
+        ss = session['login']
+        cc = request.get_json(force=True)['count']
+        pp = request.get_json(force=True)['pos']
+        gg = db.getOnlineFriends(ss, pp, cc)
+        return jsonify(gg)
+    return None 
+
+@app.route("/handlers/msgRecentListFetch", methods=['POST'])
+def msgRecentListFetch():
+    global db  
+    if "login" in session:
+        ss = session['login']
+        cc = request.get_json(force=True)['count']
+        pp = request.get_json(force=True)['pos']
+        gg = db.getRecentContacts(ss, pp, cc)
+        return jsonify(gg)
     return None 

@@ -50,7 +50,85 @@
         </div>
     </div>
     <div id="right-sidebar">
+        <link href="{{ url_for('static', filename='css/msgSidePanel.css') }}" rel="stylesheet">
+        <script type="text/javascript" src="{{ url_for('static', filename='js/messaging.js') }}"></script>
+        <div id="messaging-wrapper">
+            <div id="messaging-header">
+                My Friends
+            </div>
+            <div id="messaging-recent" onloadstart="refreshMsgRecentList();">
+                <div class="msgContact-recent-header" onclick="toggleMsgRecents()">
+                    Recent
+                </div>
+                <div class="msgContact-recent-board">
+                   <!-- <div class="msgContact-recent-box">
+                        <div class="msgContact-recent-pic">
+                            <img class="msgContact-user-pic" src="/static/img/Users/ashish/profile_pic.jpg" />
+                        </div>
+                        <div class="msgContact-recent-name">
+                            Ashish Kumar Singh
+                        </div>
+                        <div class="msgContact-recent-lastMsg">
 
+                        </div>
+                        <div class="msgContact-recent-count">
+                            5
+                        </div>
+                    </div>
+
+                    <div class="msgContact-recent-box">
+                        <div class="msgContact-recent-pic">
+                            <img class="msgContact-user-pic" src="/static/img/Users/divyanshi/profile_pic.jpg" />
+                        </div>
+                        <div class="msgContact-recent-name">
+                            Divyanshi Kamra
+                        </div>
+                        <div class="msgContact-recent-lastMsg">
+
+                        </div>
+                        <div class="msgContact-recent-count">
+                            3
+                        </div>
+                    </div>
+                    <div class="msgContact-recent-box">
+                        <div class="msgContact-recent-pic">
+                            <img class="msgContact-user-pic" src="/static/img/Users/anushka/profile_pic.jpg" />
+                        </div>
+                        <div class="msgContact-recent-name">
+                            Anushka Gupta
+                        </div>
+                        <div class="msgContact-recent-lastMsg">
+
+                        </div>
+                        <div class="msgContact-recent-count">
+                            4
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <div id="messaging-general" onloadstart="refreshMsgGeneralList();">
+                <div class="msgContact-general-header" onclick="toggleMsgGenerals()">
+                    Contacts
+                </div>
+                <div class="msgContact-board">
+                    <div class="msgContact-box">
+                        <div class="msgContact-pic">
+
+                        </div>
+                        <div class="msgContact-name">
+
+                        </div>
+                        <div class="msgContact-lastMsg">
+
+                        </div>
+                        <div class="msgContact-count">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
     <link href="{{ url_for('static', filename='css/posts.css') }}" rel="stylesheet">
     <div id="wall" onloadstart="loadPostFeed();">
@@ -76,6 +154,7 @@
 </div>
 <script>
     loadPostFeed(5, 0);
+    refreshMsgRecentList(5, 0);
     $(window).scroll(function () {
         if ($(window).scrollTop() + $(window).height() == $(document).height()) {
             loadPostFeed(5, 0);

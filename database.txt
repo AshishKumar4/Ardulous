@@ -36,5 +36,17 @@ User Table Entry ==>
     "address": "",
     "occupation": "",
     "interest": ""
+  },
+  "messaging": {
+
   }
 }
+
+Messaging table Entry ==>
+{
+  
+}
+
+
+Whenever a person 'messages' another person, a 'Message' Table entry would be made for their connection and all the messages would be stored there.
+the id of the table entry would be with each of the person.

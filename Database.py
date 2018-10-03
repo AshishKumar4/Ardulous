@@ -110,6 +110,28 @@ class Database:
             return None 
         return None
 
+    def getUserBasicInfo(self, uid):
+        d = self.db 
+        info = {}
+        try:
+            b = d['users'].find_one({"_id":uid})
+            #info['email'] = b['email']
+            info['id'] = b['_id']
+            #info['city'] = b['personal']['city']
+            #info['age'] = getAge(b['personal'])
+            #info['info'] = b['personal']['info']
+            info['name'] = b['personal']['name']
+            info['profile_pic'] = b['personal']['profile_pic']  
+            #info['profile_cover'] = b['personal']['profile_cover']
+            #info['stats'] = {}
+            #info['stats']['followers'] = len(b['connections']['followers'])
+            #info['stats']['following'] = len(b['connections']['following'])
+            #info['stats']['posts'] = len(b['originals'])
+            return info
+        except:
+            return None 
+        return None
+
     def getProfilePic(self, uid):
         return ""
 
@@ -121,15 +143,19 @@ class Database:
             # Every user should have a Feeds List, pop values from it 
             fl = list(b['originals'])
             o = len(fl)
-            if pos == o :
+            if pos >= o :
                 return None
-            feed = fl[(o-pos)-min([o,count]):o - pos]
+            ll = o - pos
+            feed = fl[ll-min([ll,count]):ll]
             g = list()
             for i in feed:
                 j = dict(d['posts'].find_one({'_id':ObjectId(i)}))
                 j['post-id'] = i 
                 j['_id'] = i
-                j['likes'] = len(j['stats']['likes'])
+                j['stats-likes'] = len(j['stats']['likes'])
+                if(uid in j['stats']['likes']):
+                    j['like-symbol'] = "glyphicon-heart"
+                else: j['like-symbol'] = "glyphicon-heart-empty"
                 g.append(j)
             return g
         except: 
@@ -144,15 +170,19 @@ class Database:
             # Every user should have a Feeds List, pop values from it 
             fl = list(b['feed'])
             o = len(fl)
-            if pos == o :
+            if pos >= o :
                 return None
-            feed = fl[(o-pos)-min([o,count]):o - pos]
+            ll = o - pos
+            feed = fl[ll-min([ll,count]):ll]
             g = list()
             for i in feed:
                 j = dict(d['posts'].find_one({'_id':ObjectId(i)}))
                 j['post-id'] = i 
                 j['_id'] = i
-                j['likes'] = len(j['stats']['likes'])
+                j['stats-likes'] = len(j['stats']['likes'])
+                if(uid in j['stats']['likes']):
+                    j['like-symbol'] = "glyphicon-heart"
+                else: j['like-symbol'] = "glyphicon-heart-empty"
                 g.append(j)
             return g
         except: 
@@ -226,7 +256,30 @@ class Database:
         except:
             return None
 
-    def makeLikePost(self, uid, pid):
+    def LikeUnlikePost(self, uid, pid):     # If post liked by user already, Unlike it!
+        d = self.db 
+        try:
+            b = d['users'].find_one({"_id":uid})
+            # Add this post as 'Liked' post for the user
+            # and add a like on the post itself
+            p = d['posts'].find_one({"_id":ObjectId(pid)})
+            k = p['stats']['likes']
+            lksym = ''
+            if uid not in k:
+                k.append(uid)
+                p['stats']['likes'] = k 
+                lksym = 'glyphicon-heart'
+            else: 
+                k.remove(uid)
+                p['stats']['likes'] = k 
+                lksym = 'glyphicon-heart-empty'
+            d['posts'].save(p)
+            return dict({'stats-likes':len(k), 'like-symbol':lksym})
+        except:
+            return None
+
+
+    def makeLikePost(self, uid, pid):       # Like the post even if its like already
         d = self.db 
         try:
             b = d['users'].find_one({"_id":uid})
@@ -241,7 +294,7 @@ class Database:
                 #d['posts'].commit()
             else: 
                 pass
-            return len(k)
+            return dict({'stats-likes':len(k)})
         except:
             return None
 
@@ -288,3 +341,26 @@ class Database:
             return True
         except:
             return None 
+
+    def getOnlineFriends(self, uid, count):
+        return None 
+    
+    def getRecentContacts(self, uid, pos, count):
+        d = self.db
+        try:
+            b = d['users'].find_one({"_id":uid})
+            m = list(b['messaging'])
+            o = len(m)
+            if pos >= o :
+                return None
+            ll = o - pos
+            mm = m[ll-min([ll,count]):ll]
+            g = list()
+            for i in mm:
+                h = self.getUserBasicInfo(i['uid'])
+                h['stats-unseen'] = i['unseen']
+                g.append(h)
+            return g
+        except:
+            return None
+        return None
